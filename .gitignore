@@ -1,0 +1,7 @@
+all-apis.json
+node_modules
+dist
+.env
+logs
+certs
+.sentryclirc

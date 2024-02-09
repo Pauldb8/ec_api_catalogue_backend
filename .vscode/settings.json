@@ -1,0 +1,14 @@
+{
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"source.organizeImports": true
+	},
+	"prettier.requireConfig": true,
+	"prettier.configPath": ".prettierrc.cjs",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4
+}
