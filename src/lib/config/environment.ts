@@ -19,5 +19,6 @@ export const bindPort = Number(process.env.BIND_PORT);
 export const accessLogPath = process.env.ACCESS_LOG_PATH as string;
 export const sslKeyPath = process.env.SSL_KEY_PATH as string;
 export const sslCertPath = process.env.SSL_CERT_PATH as string;
+export const apisJSONPath = process.env.APIS_PATH as string;
 export const authJwtSecret = process.env.AUTH_JWT_SECRET as string;
 export const sentryDsn = process.env.SENTRY_DSN as string;
