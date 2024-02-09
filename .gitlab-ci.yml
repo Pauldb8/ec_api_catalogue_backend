@@ -40,8 +40,8 @@ build1:
     - cp /home/pauldb/eur/env/api_catalogue_gateway/.env ./.env
     - pwd
     - ls -latr
-    - docker build -t "api_catalogue_gateway" .
     - cd /home/pauldb/eur/
+    - docker compose build
     - docker compose up api_catalogue_gateway -d
   only:
     - master
