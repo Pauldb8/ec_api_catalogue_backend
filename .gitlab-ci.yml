@@ -42,7 +42,7 @@ build1:
     - ls -latr
     - docker compose build
     #- cd /home/pauldb/eur/
-    - docker compose up api_catalogue_gateway -d
+    - docker compose up -d
   only:
     - master
     - main  
