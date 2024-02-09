@@ -7,3 +7,6 @@ services:
             #- '9229:9229' # nodejs debugging port
         #command: node --inspect=0.0.0.0 dist/index.js
         restart: unless-stopped
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
+            - /home/pauldb/eur/data:/data
