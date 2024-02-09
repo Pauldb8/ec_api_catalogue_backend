@@ -1,0 +1,50 @@
+# This file is a template, and might need editing before it works on your project.
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Bash.gitlab-ci.yml
+
+# See https://docs.gitlab.com/ee/ci/yaml/index.html for all available options
+
+# you can delete this line if you're not using Docker
+
+
+before_script:
+  - echo "Hello i'm git lab i'm gonna try to build this front end and deploy it hopefully"
+  - node -v
+  - pwd
+  - ls -la
+
+stages:
+    - pull
+    - build
+    - deployment
+
+after_script:
+  - echo "Gitlab has done a stage"
+
+pull1:
+  stage: pull
+  script:
+    - echo "please work"
+    - echo "Pulling from github"
+    - echo ça marche
+
+build1:
+  stage: build
+  script:
+    - echo "Building project"
+    - cp /home/pauldb/eur/env/api_catalogue_gateway/.env ./.env
+    - pwd
+    - ls -latr
+    - docker build -t "api_catalogue_gateway" .
+    - cd /home/pauldb/eur/
+    - docker compose up api_catalogue_gateway -d
+  only:
+    - master
+    - main  
+  environment:
+    name: production
