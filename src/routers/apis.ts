@@ -1,6 +1,8 @@
+import { apisJSONPath } from '@lib/config/environment.js';
 import { Router, type Request, type Response } from 'express';
 import fs from 'fs/promises';
-const apis = await fs.readFile('all-apis.json', 'utf8').then(s =>
+
+const apis = await fs.readFile(apisJSONPath, 'utf8').then(s =>
 	s
 		.split('\n')
 		.filter(l => l)
