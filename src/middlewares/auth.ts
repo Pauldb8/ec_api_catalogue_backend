@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { z } from 'zod';
-import { authJwtSecret } from '../config/environment.js';
-import { ClientError } from './error.js';
+import { authJwtSecret } from '../config/environment';
+import { ClientError } from './error';
 
 export const JwtUser = z.object({
 	name: z.string().min(1).max(32),
