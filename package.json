@@ -16,7 +16,7 @@
 		"dev": "nodemon src/app.ts"
 	},
 	"devDependencies": {
-		"@sentry/cli": "^2.20.5",
+		"@tsconfig/node20": "^20.1.2",
 		"@types/compression": "^1.7.2",
 		"@types/cors": "^2.8.13",
 		"@types/express": "^4.17.17",
