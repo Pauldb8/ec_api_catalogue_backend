@@ -1,4 +1,14 @@
-node_modules
-dist
-.vscode
 .husky
+.vscode
+dist
+node_modules
+static
+.dockerignore
+.env
+.git*
+.lintstagedrc.cjs
+.prettie*
+docker-compose.yml
+gitlab-ci.yml
+Dockerfile
+README.md

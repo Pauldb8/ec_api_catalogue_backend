@@ -6,7 +6,7 @@ This is an express server backend for European Commission - API Catalog.
 
 Install recommended extensions from `.vscode/extensions.json` in vscode.
 
-```
+```sh
 npm install
 ```
 
@@ -25,19 +25,16 @@ VSCode automatically formats and lints on save. Git automatically lints and form
 ### Locally
 
 Open or create the `.env` file and set the variables according to examples from `.env.example`.
+Note that for local develoment, all config related env variables have already been filled in the docker compose setup.
+Start the docker containers using `docker-compose up -d `.
 
-Start debugging using `Launch Local` vscode launch configuration. Project will build automatically before starting.
-
-### Inside Docker
-
-Build and start the docker containers using `docker-compose up -d --build`.
-
-Make sure the local build is up to date by running `npm run build`. This is important because local source maps are used by the debugger.
-
-Then attach the debugger using `Attach Docker` vscode launch configuration.
-
-Or just let vscode do all of the steps above for you by using `Launch Docker` vscode launch configuration.
 
 ### Dispose
 
 Before closing the project, run `docker compose down` to dispose of any remaining docker containers.
+
+## Build the prod Docker image
+
+```sh
+docker build --target prod -t ec-api-catalogue-backend:latest .
+```

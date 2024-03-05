@@ -1,25 +1,47 @@
-FROM node:18-alpine
-
-WORKDIR /usr/src/app
-
-COPY package*.json .
-RUN npm clean-install
-
-COPY . .
-RUN npm run build
-RUN npx sentry-cli sourcemaps inject dist
+ARG NODE_VERSION=20
 
 
-USER root
-RUN npm install pm2 -g
-RUN npm install cross-env -g
+
+####################
+###  BASE BUILD  ###
+####################
+
+FROM node:${NODE_VERSION} as build
 
 USER node
 
-ENV NODE_ENV=production
-ENV BIND_IP=0.0.0.0
-ENV BIND_PORT=8080
+WORKDIR /usr/src/app
 
-EXPOSE 8080
-CMD ["cross-env", "NODE_ENV=production", "pm2-runtime", "dist/index.js"]
-#CMD [ "node", "dist/index.js" ]
+COPY --chown=node:node package*.json ./
+
+RUN npm ci
+
+COPY --chown=node:node . .
+
+RUN npm run build
+
+
+
+####################
+###  PROD BUILD  ###
+####################
+
+FROM node:${NODE_VERSION}-alpine as prod
+
+ENV NODE_ENV production
+
+USER root
+
+RUN npm install pm2 -g
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/dist ./
+
+COPY .env.example package.json ./
+
+EXPOSE 3000
+
+CMD [ "pm2-runtime", "app.js" ]
