@@ -1,13 +1,9 @@
 {
-	"name": "api_catalog_backend",
-	"author": "De Buck Technologies SRL",
+	"name": "ec-api-catalogue-backend",
+	"author": "De Buck Technologies SRL & Thomas Ritaine",
 	"license": "MIT",
 	"version": "0.1.0",
-	"description": "European Commission - API Catalog Backend",
-	"type": "module",
-	"engines": {
-		"node": ">=18.17.0"
-	},
+	"description": "European Commission - API Catalogue Backend",
 	"scripts": {
 		"build": "webpack",
 		"format": "prettier --write .",
@@ -19,9 +15,9 @@
 		"@tsconfig/node20": "^20.1.2",
 		"@types/compression": "^1.7.2",
 		"@types/cors": "^2.8.13",
-		"@types/express": "^4.17.17",
+		"@types/express": "^4.17.21",
 		"@types/morgan": "^1.9.4",
-		"@types/node": "^20.4.5",
+		"@types/node": "^20.11.24",
 		"@types/passport": "^1.0.12",
 		"@types/passport-jwt": "^3.0.9",
 		"@typescript-eslint/eslint-plugin": "^6.2.0",
@@ -48,7 +44,7 @@
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"helmet": "^7.0.0",
-		"mongoose": "^7.4.1",
+		"mongoose": "^7.6.9",
 		"morgan": "^1.10.0",
 		"passport": "^0.6.0",
 		"passport-jwt": "^4.0.1",
