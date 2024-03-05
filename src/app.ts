@@ -6,9 +6,10 @@ import cors from 'cors';
 import express from 'express';
 import fs, { mkdirSync } from 'fs';
 import helmet from 'helmet';
+import mongoose from 'mongoose';
 import morgan from 'morgan';
 import path from 'path';
-import { accessLogPath, nodeEnvironment, release, sentryDsn } from './config/environment';
+import { accessLogPath, mongoURI, nodeEnvironment, release, sentryDsn } from './config/environment';
 import { JwtUser } from './middlewares/auth';
 import { errorHandler, errorIsUnknownType, notFound } from './middlewares/error';
 import apisRouter from './routes/apis';
@@ -54,6 +55,11 @@ if (nodeEnvironment) {
 } else {
 	app.use(morgan('dev'));
 }
+
+// Connect to the database
+mongoose.connect(mongoURI)
+  .then(() => console.log('MongoDB connection established'))
+  .catch((error) => console.error('MongoDB connection error:', error));
 
 // Middleware setup
 app.use(compression());
