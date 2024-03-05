@@ -1,12 +1,30 @@
 version: '3.8'
+
 services:
     ec_api_catalogue_backend:
-        build: .
+        image: node:20
+        depends_on:
+            - mongodb
+        working_dir: /usr/src/app
+        user: node:node
+        environment:
+            - NODE_ENV=development
+            - ACCESS_LOG_PATH=logs/access.log
+            - AUTH_JWT_SECRET=super-secret-never-share
+        env_file:
+            - .env
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./:/usr/src/app
+            - backend_data:/data
+        command: npm run dev
         ports:
             - '5010:8080'
             #- '9229:9229' # nodejs debugging port
         #command: node --inspect=0.0.0.0 dist/index.js
         restart: unless-stopped
         volumes:
-            - /etc/letsencrypt:/etc/letsencrypt
-            - /home/pauldb/eur/data:/data
+
+volumes:
+    backend_data:
