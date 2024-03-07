@@ -11,7 +11,6 @@
 
 # you can delete this line if you're not using Docker
 
-
 before_script:
   - echo "Hello i'm git lab i'm gonna try to build this front end and deploy it hopefully"
   - node -v
@@ -19,9 +18,9 @@ before_script:
   - ls -la
 
 stages:
-    - pull
-    - build
-    - deployment
+  - pull
+  - build
+  - deployment
 
 after_script:
   - echo "Gitlab has done a stage"
@@ -45,6 +44,6 @@ build1:
     - docker compose up -d
   only:
     - master
-    - main  
+    - main
   environment:
     name: production

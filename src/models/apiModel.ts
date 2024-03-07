@@ -6,7 +6,7 @@ interface IApi extends Document {
 }
 
 const ApiSchema: Schema = new Schema({
-//   id: { type: String, default: () => uuidv4(), unique: true, required: true },
+  //   id: { type: String, default: () => uuidv4(), unique: true, required: true },
   // Add other fields here as needed
 });
 

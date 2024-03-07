@@ -28,7 +28,6 @@ Open or create the `.env` file and set the variables according to examples from 
 Note that for local develoment, all config related env variables have already been filled in the docker compose setup.
 Start the docker containers using `docker-compose up -d `.
 
-
 ### Dispose
 
 Before closing the project, run `docker compose down` to dispose of any remaining docker containers.
