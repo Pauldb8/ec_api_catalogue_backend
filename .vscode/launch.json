@@ -1,36 +1,42 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Launch Local",
-			"type": "node",
-			"request": "launch",
-			"console": "integratedTerminal",
-			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/dist/index.js",
-			"skipFiles": ["<node_internals>/**"],
-			"sourceMapPathOverrides": { "/*": "${workspaceFolder}/src/*" }
-		},
-		{
-			"name": "Launch Docker",
-			"type": "node",
-			"request": "attach",
-			"internalConsoleOptions": "openOnSessionStart",
-			"preLaunchTask": "docker build start",
-			"restart": true,
-			"remoteRoot": "/usr/src/app",
-			"skipFiles": ["<node_internals>/**"],
-			"sourceMapPathOverrides": { "/*": "${workspaceFolder}/src/*" }
-		},
-		{
-			"name": "Attach Docker",
-			"type": "node",
-			"request": "attach",
-			"internalConsoleOptions": "openOnSessionStart",
-			"restart": true,
-			"remoteRoot": "/usr/src/app",
-			"skipFiles": ["<node_internals>/**"],
-			"sourceMapPathOverrides": { "/*": "${workspaceFolder}/src/*" }
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Local",
+      "type": "node",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/dist/app.js",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMapPathOverrides": {
+        "/*": "${workspaceFolder}/src/*"
+      }
+    },
+    {
+      "name": "Launch Docker",
+      "type": "node",
+      "request": "attach",
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "docker build start",
+      "restart": true,
+      "remoteRoot": "/usr/src/app",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMapPathOverrides": {
+        "/*": "${workspaceFolder}/src/*"
+      }
+    },
+    {
+      "name": "Attach Docker",
+      "type": "node",
+      "request": "attach",
+      "internalConsoleOptions": "openOnSessionStart",
+      "restart": true,
+      "remoteRoot": "/usr/src/app",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMapPathOverrides": {
+        "/*": "${workspaceFolder}/src/*"
+      }
+    }
+  ]
 }
