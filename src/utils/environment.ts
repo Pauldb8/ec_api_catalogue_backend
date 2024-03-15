@@ -21,6 +21,7 @@ if (missingVars.length > 0)
   throw new Error(`Missing environment variables: ${missingVars.join(', ')}`);
 
 export const release = packageJson.name + '@' + packageJson.version;
+export const version = packageJson.version;
 export const nodeEnvironment = process.env.NODE_ENV;
 export const accessLogPath = process.env.ACCESS_LOG_PATH ?? '';
 export const authJwtSecret = process.env.AUTH_JWT_SECRET;
