@@ -14,7 +14,7 @@ services:
       - .env
     volumes:
       - backend_data:/data
-      - ./logs:/data/logs
+      - /home/pauldb/eur/data/logs:/data/logs
     # ports:
     #   - '3000:3000'
     labels:
