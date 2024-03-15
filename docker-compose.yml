@@ -26,6 +26,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+      - MONGO_INITDB_USER_NAME=webapp
+      - MONGO_INITDB_USER_PASSWORD=password
       - MONGO_INITDB_DATABASE=ec_api_catalogue_backend
     ports:
       - "27017:27017"
