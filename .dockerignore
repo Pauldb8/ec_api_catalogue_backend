@@ -8,6 +8,7 @@ static
 .git*
 .lintstagedrc.cjs
 .prettie*
+docker-compose.prod.yml
 docker-compose.yml
 gitlab-ci.yml
 Dockerfile
