@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { ZodError } from 'zod';
-import { nodeEnvironment } from '../config/environment';
+import { nodeEnvironment } from '../utils/environment';
 
 export class ClientError extends Error {
   statusCode: number;

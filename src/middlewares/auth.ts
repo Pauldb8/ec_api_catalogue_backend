@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { z } from 'zod';
-import { authJwtSecret } from '../config/environment';
+import { authJwtSecret } from '../utils/environment';
 import { ClientError } from './error';
 
 export const JwtUser = z.object({
