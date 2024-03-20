@@ -16,7 +16,7 @@ services:
       - /home/pauldb/eur/data:/data
       - /home/pauldb/eur/data/logs:/data/logs
     ports:
-      - '5210:3000'
+      - '5010:3000'
 
   mongodb:
     image: mongo:7
