@@ -8,3 +8,5 @@ db.createUser({
     },
   ],
 });
+
+console.log(`DEBUG LOG : User ${process.env.MONGO_INITDB_USER_NAME} with password ${process.env.MONGO_INITDB_USER_PASSWORD} created successfully`);
