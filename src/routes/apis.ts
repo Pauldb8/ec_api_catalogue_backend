@@ -14,60 +14,72 @@ const searchableFields = [
   'description',
 ];
 
-// GET APIs based on a search term across multiple fields
+// GET APIs with optional search, environment, and featured filters
 router.route('/').get(async (req: Request, res: Response) => {
   try {
-    const { search } = req.query as { search?: string };
-
-    // If no search term is provided, return all APIs
-    if (!search) {
-      const apis = await ApiModel.find();
-      return res.json(apis);
-    }
-
-    // Build the query for searching across multiple fields
-    const query = {
-      $or: searchableFields.map(field => ({
-        [field]: { $regex: search, $options: 'i' },
-      })),
+    const { search, environment, featured } = req.query as {
+      search?: string;
+      environment?: string;
+      featured?: string;
     };
 
-    let apis = await ApiModel.find(query); // Execute the search query
+    const query: { [key: string]: unknown } = {};
 
-    // Sort the results based on the field importance
-    apis = apis.sort((a, b) => {
-      let aIndex = searchableFields.length;
-      let bIndex = searchableFields.length;
-      searchableFields.forEach((field, index) => {
-        if (
-          (
-            a[
-              field as keyof typeof IApi &
-                keyof Document<unknown, object, typeof IApi>
-            ] as string
+    // Add search term condition if provided
+    if (search) {
+      query.$or = searchableFields.map(field => ({
+        [field]: { $regex: search, $options: 'i' },
+      }));
+    }
+
+    // Filter by environment if specified
+    if (environment) {
+      query.environment = environment;
+    }
+
+    // Filter by featured if specified
+    if (featured !== undefined) {
+      query.featured = featured === 'true';
+    }
+
+    const apis = await ApiModel.find(query); // Execute the query with filters
+
+    // Sort the results based on the field importance if search term is provided
+    if (search) {
+      apis.sort((a, b) => {
+        let aIndex = searchableFields.length;
+        let bIndex = searchableFields.length;
+        searchableFields.forEach((field, index) => {
+          if (
+            (
+              a[
+                field as keyof typeof IApi &
+                  keyof Document<unknown, object, typeof IApi>
+              ] as string
+            )
+              .toLowerCase()
+              .includes((search as string).toLowerCase())
           )
-            .toLowerCase()
-            .includes((search as string).toLowerCase())
-        )
-          aIndex = Math.min(aIndex, index);
-        if (
-          (
-            b[
-              field as keyof typeof IApi &
-                keyof Document<unknown, object, typeof IApi>
-            ] as string
+            aIndex = Math.min(aIndex, index);
+          if (
+            (
+              b[
+                field as keyof typeof IApi &
+                  keyof Document<unknown, object, typeof IApi>
+              ] as string
+            )
+              .toLowerCase()
+              .includes((search as string).toLowerCase())
           )
-            .toLowerCase()
-            .includes((search as string).toLowerCase())
-        )
-          bIndex = Math.min(bIndex, index);
+            bIndex = Math.min(bIndex, index);
+        });
+        return aIndex - bIndex;
       });
-      return aIndex - bIndex;
-    });
+    }
 
     res.json(apis);
   } catch (error) {
-    console.error('Error searching APIs:', error);
+    console.error('Error retrieving/searching APIs:', error);
     res.status(500).send('Internal Server Error');
   }
 });
