@@ -100,4 +100,26 @@ router.route('/:apiId').get(async (req: Request, res: Response) => {
   }
 });
 
+// POST a new API
+router.route('/').post(async (req: Request, res: Response) => {
+  try {
+    // Validate and create a new API from the request body
+    const newApi = new ApiModel(req.body);
+
+    // Before saving, Mongoose automatically validates the newApi against the ApiSchema
+    // If validation fails, Mongoose will throw a ValidationError
+    await newApi.save();
+
+    // If the document is successfully saved, return the created API object
+    res.status(201).json(newApi);
+  } catch (error) {
+    console.error('Error creating a new API:', error);
+    if ((error as Error).name === 'ValidationError') {
+      res.status(400).send((error as Error).message);
+    } else {
+      res.status(500).send('Internal Server Error');
+    }
+  }
+});
+
 export default router;
