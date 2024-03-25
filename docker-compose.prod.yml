@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   ec_api_catalogue_backend:
@@ -18,14 +18,14 @@ services:
     # ports:
     #   - '3000:3000'
     labels:
-      - "traefik.enable=true"
+      - 'traefik.enable=true'
       # - 'traefik.http.routers.ec_api_catalogue_backend.rule=Host(`api.localhost`)'
-      - "traefik.http.routers.ec_api_catalogue_backend.rule=Host(`mercurius.debuck.tech`)"
-      - "traefik.http.routers.ec_api_catalogue_backend.entrypoints=websecure"
-      - "traefik.http.routers.ec_api_catalogue_backend.tls=true"
+      - 'traefik.http.routers.ec_api_catalogue_backend.rule=Host(`mercurius.debuck.tech`)'
+      - 'traefik.http.routers.ec_api_catalogue_backend.entrypoints=websecure'
+      - 'traefik.http.routers.ec_api_catalogue_backend.tls=true'
       # - 'traefik.http.routers.ec_api_catalogue_backend.tls.certresolver=letsencrypt'
-      - "traefik.http.routers.ec_api_catalogue_backend.tls.certresolver=localhostresolver"
-      - "traefik.http.services.ec_api_catalogue_backend.loadbalancer.server.port=3000"
+      - 'traefik.http.routers.ec_api_catalogue_backend.tls.certresolver=localhostresolver'
+      - 'traefik.http.services.ec_api_catalogue_backend.loadbalancer.server.port=3000'
 
   mongodb:
     image: mongo:7
@@ -43,18 +43,18 @@ services:
   traefik:
     image: traefik:v2.11
     command:
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.websecure.address=:5010"
-      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=thomas.ritaine@ext.ec.europa.eu"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.localhostresolver.tls=true"
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entrypoints.websecure.address=:5010'
+      - '--certificatesresolvers.letsencrypt.acme.tlschallenge=true'
+      - '--certificatesresolvers.letsencrypt.acme.email=thomas.ritaine@ext.ec.europa.eu'
+      - '--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json'
+      - '--certificatesresolvers.localhostresolver.tls=true'
     ports:
-      - "5010:5010"
+      - '5010:5010'
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "letsencrypt:/letsencrypt"
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+      - 'letsencrypt:/letsencrypt'
     depends_on:
       - ec_api_catalogue_backend
   # labels:

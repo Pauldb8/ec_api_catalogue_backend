@@ -3,8 +3,8 @@ db.createUser({
   pwd: process.env.MONGO_INITDB_USER_PASSWORD,
   roles: [
     {
-      role: "readWrite",
-      db: "ec_api_catalogue_backend",
+      role: 'readWrite',
+      db: 'ec_api_catalogue_backend',
     },
   ],
 });
