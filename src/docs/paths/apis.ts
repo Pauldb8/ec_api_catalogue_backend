@@ -56,6 +56,38 @@ const apisPaths = {
         },
       },
     },
+    post: {
+      summary: 'Create a new API',
+      description: 'Adds a new API to the catalog.',
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Api',
+            },
+          },
+        },
+      },
+      responses: {
+        '201': {
+          description: 'API created successfully',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Api',
+              },
+            },
+          },
+        },
+        '400': {
+          description: 'Invalid input',
+        },
+        '500': {
+          description: 'Internal Server Error',
+        },
+      },
+    },
   },
   '/apis/{apiId}': {
     get: {

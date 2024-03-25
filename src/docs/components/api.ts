@@ -33,6 +33,7 @@ const apiComponent = {
       openapiDefinition: {
         type: 'object',
         description: 'The OpenAPI definition for the API.',
+        additionalProperties: true,
       },
       featured: {
         type: 'boolean',
