@@ -9,6 +9,8 @@ interface IApi extends Document {
   version: string;
   provider: string;
   openapiDefinition: object;
+  featured: boolean;
+  environment: 'intra' | 'extra' | 'acceptance' | 'capi';
 }
 
 const ApiSchema: Schema = new Schema({
@@ -20,6 +22,12 @@ const ApiSchema: Schema = new Schema({
   version: { type: String, required: true },
   provider: { type: String, required: true },
   openapiDefinition: { type: Schema.Types.Mixed, required: true },
+  featured: { type: Boolean, required: true, default: false },
+  environment: {
+    type: String,
+    required: true,
+    enum: ['intra', 'extra', 'acceptance', 'capi'],
+  },
 });
 
 export default mongoose.model<IApi>('Api', ApiSchema);

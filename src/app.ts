@@ -24,7 +24,6 @@ import {
 } from './middlewares/error';
 import apisRouter from './routes/apis';
 import { openapi } from './docs/openapi';
-import { absolutePath } from 'swagger-ui-dist';
 import swaggerUi from 'swagger-ui-express';
 
 const app = express();
@@ -104,8 +103,6 @@ app.use('/apis', apisRouter);
 
 // OpenAPI documentation setup
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi));
-// Serve the Swagger UI assets
-app.use(express.static(absolutePath()));
 
 // Error handling
 app.use(notFound);

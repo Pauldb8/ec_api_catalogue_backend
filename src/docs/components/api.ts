@@ -33,6 +33,18 @@ const apiComponent = {
       openapiDefinition: {
         type: 'object',
         description: 'The OpenAPI definition for the API.',
+        additionalProperties: true,
+      },
+      featured: {
+        type: 'boolean',
+        description:
+          'Indicates if the API is featured in the API Catalogue, which means displayed on the main page.',
+        default: false,
+      },
+      environment: {
+        type: 'string',
+        description: 'The operational environment of the API.',
+        enum: ['intra', 'extra', 'acceptance', 'capi'],
       },
     },
     required: [
@@ -44,6 +56,7 @@ const apiComponent = {
       'version',
       'provider',
       'openapiDefinition',
+      'environment',
     ],
   },
 };
