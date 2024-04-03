@@ -1,3 +1,5 @@
+import { nodeEnvironment } from './environment';
+
 /**
  * Determines if the application is running in a production environment.
  * @returns {boolean} `true` if `NODE_ENV` is `production`, otherwise `false`.
@@ -9,5 +11,5 @@
  * }
  */
 export function isProdEnv(): boolean {
-  return process.env.NODE_ENV === 'production';
+  return nodeEnvironment === 'production';
 }
