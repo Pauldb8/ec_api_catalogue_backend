@@ -1,0 +1,818 @@
+[
+  {
+    "id": "60b67b30-49b8-4959-a884-38e181851759",
+    "name": "BookingAPI",
+    "description": "Manages booking operations for hotels and flights.",
+    "context": "/bookings",
+    "version": "2.0.0",
+    "provider": "admin",
+    "technicalOwner": "Alice Johnson",
+    "businessOwner": "Bob Johnson",
+    "tenant": "Travel Co. Operations",
+    "featured": true,
+    "lifeCycleStatus": "PUBLISHED",
+    "responseCachingEnabled": true,
+    "cacheTimeout": 120,
+    "hasThumbnail": true,
+    "isDefaultVersion": true,
+    "isRevision": false,
+    "revisionedApiId": null,
+    "revisionId": 0,
+    "enableSchemaValidation": false,
+    "type": "HTTP",
+    "audience": "Travelers",
+    "transport": ["http", "https"],
+    "tags": ["booking", "travel", "hotels", "flights"],
+    "policies": ["Gold", "Silver"],
+    "apiThrottlingPolicy": "Unlimited",
+    "authorizationHeader": "Authorization",
+    "securityScheme": ["oauth2"],
+    "maxTps": 1000,
+    "visibility": "PUBLIC",
+    "visibleRoles": [],
+    "visibleTenants": [],
+    "mediationPolicies": [],
+    "subscriptionAvailability": "CURRENT_TENANT",
+    "subscriptionAvailableTenants": [],
+    "additionalProperties": [],
+    "additionalPropertiesMap": {},
+    "monetization": null,
+    "accessControl": "NONE",
+    "accessControlRoles": [],
+    "businessInformation": {
+      "businessOwner": "Alice Johnson",
+      "businessOwnerEmail": "alice.johnson@travelco.com",
+      "technicalOwner": "Bob Johnson",
+      "technicalOwnerEmail": "bob.johnson@travelco.com"
+    },
+    "corsConfiguration": {
+      "corsConfigurationEnabled": true,
+      "accessControlAllowOrigins": ["*"],
+      "accessControlAllowCredentials": true,
+      "accessControlAllowHeaders": [
+        "authorization",
+        "Access-Control-Allow-Origin",
+        "Content-Type",
+        "SOAPAction"
+      ],
+      "accessControlAllowMethods": ["GET", "POST", "DELETE", "PUT", "PATCH"]
+    },
+    "openapiDefinition": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "BookingAPI",
+        "description": "Manages booking operations for hotels and flights.",
+        "version": "2.0.0",
+        "contact": {
+          "name": "API Support",
+          "email": "support@bookingapi.com"
+        }
+      },
+      "servers": [
+        {
+          "url": "https://example.com/api",
+          "description": "Production server"
+        }
+      ],
+      "paths": {
+        "/bookings": {
+          "get": {
+            "summary": "Get all bookings",
+            "operationId": "getAllBookings",
+            "tags": ["bookings"],
+            "responses": {
+              "200": {
+                "description": "A list of bookings",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Booking"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "post": {
+            "summary": "Create a new booking",
+            "operationId": "createBooking",
+            "tags": ["bookings"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Booking"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Booking created",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Booking"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/bookings/{bookingId}": {
+          "get": {
+            "summary": "Get a booking by ID",
+            "operationId": "getBookingById",
+            "tags": ["bookings"],
+            "parameters": [
+              {
+                "name": "bookingId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Booking found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Booking"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Booking not found"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Booking": {
+            "type": "object",
+            "required": ["id", "customerName", "destination"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the booking"
+              },
+              "customerName": {
+                "type": "string",
+                "description": "Name of the customer"
+              },
+              "destination": {
+                "type": "string",
+                "description": "Booking destination"
+              },
+              "bookingDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of the booking"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "6e07d923-e754-4c85-8f2a-677f5a7475b9",
+    "name": "WeatherAPI",
+    "description": "Provides weather forecasting data.",
+    "context": "/weather",
+    "version": "1.2.0",
+    "provider": "admin",
+    "technicalOwner": "Clara Oswald",
+    "businessOwner": "Danny Pink",
+    "tenant": "WeatherOps",
+    "featured": false,
+    "lifeCycleStatus": "PUBLISHED",
+    "responseCachingEnabled": true,
+    "cacheTimeout": 300,
+    "hasThumbnail": true,
+    "isDefaultVersion": false,
+    "isRevision": true,
+    "revisionedApiId": "a1dc6b92-16f2-4402-8eb2-e8d7918c692d",
+    "revisionId": 1,
+    "enableSchemaValidation": true,
+    "type": "HTTP",
+    "audience": "Public",
+    "transport": ["https"],
+    "tags": ["weather", "forecast"],
+    "policies": ["Basic"],
+    "apiThrottlingPolicy": "TenPerMin",
+    "authorizationHeader": "Authorization",
+    "securityScheme": ["oauth2"],
+    "maxTps": 500,
+    "visibility": "PRIVATE",
+    "visibleRoles": ["admin", "editor"],
+    "visibleTenants": [],
+    "mediationPolicies": [],
+    "subscriptionAvailability": "ALL_TENANTS",
+    "subscriptionAvailableTenants": [],
+    "additionalProperties": [],
+    "additionalPropertiesMap": {},
+    "monetization": null,
+    "accessControl": "RESTRICTED",
+    "accessControlRoles": ["admin"],
+    "businessInformation": {
+      "businessOwner": "Clara Oswald",
+      "businessOwnerEmail": "clara.oswald@weatherops.com",
+      "technicalOwner": "Danny Pink",
+      "technicalOwnerEmail": "danny.pink@weatherops.com"
+    },
+    "corsConfiguration": {
+      "corsConfigurationEnabled": true,
+      "accessControlAllowOrigins": ["https://example.com"],
+      "accessControlAllowCredentials": false,
+      "accessControlAllowHeaders": [
+        "authorization",
+        "Access-Control-Allow-Origin",
+        "Content-Type"
+      ],
+      "accessControlAllowMethods": ["GET"]
+    },
+    "openapiDefinition": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "WeatherAPI",
+        "description": "Provides weather forecasting data.",
+        "version": "1.2.0",
+        "contact": {
+          "name": "API Support",
+          "email": "support@weatherapi.com"
+        }
+      },
+      "servers": [
+        {
+          "url": "https://example.com/api",
+          "description": "Production server"
+        }
+      ],
+      "paths": {
+        "/weather/current": {
+          "get": {
+            "summary": "Get current weather",
+            "operationId": "getCurrentWeather",
+            "tags": ["Weather"],
+            "parameters": [
+              {
+                "name": "location",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Location to get the current weather for"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Current weather data",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Weather"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Location not found"
+              }
+            }
+          }
+        },
+        "/weather/forecast": {
+          "get": {
+            "summary": "Get weather forecast",
+            "operationId": "getWeatherForecast",
+            "tags": ["Weather"],
+            "parameters": [
+              {
+                "name": "location",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Location to get the weather forecast for"
+              },
+              {
+                "name": "days",
+                "in": "query",
+                "schema": {
+                  "type": "integer",
+                  "default": 3
+                },
+                "description": "Number of days to get the forecast for (default is 3)"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Weather forecast data",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WeatherForecast"
+                      }
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Location not found"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Weather": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "Location name"
+              },
+              "temperature": {
+                "type": "number",
+                "description": "Current temperature in Celsius"
+              },
+              "description": {
+                "type": "string",
+                "description": "Weather conditions description"
+              },
+              "icon": {
+                "type": "string",
+                "description": "URL to an icon representing the current weather conditions"
+              }
+            }
+          },
+          "WeatherForecast": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of the forecast"
+              },
+              "high": {
+                "type": "number",
+                "description": "High temperature for the day in Celsius"
+              },
+              "low": {
+                "type": "number",
+                "description": "Low temperature for the day in Celsius"
+              },
+              "description": {
+                "type": "string",
+                "description": "Weather conditions description for the day"
+              },
+              "icon": {
+                "type": "string",
+                "description": "URL to an icon representing the forecasted weather conditions"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "f3d869ed-5035-4ea2-b3f6-99e25dd58e75",
+    "name": "FinanceAPI",
+    "description": "Handles financial transactions and reports.",
+    "context": "/finance",
+    "version": "3.1.0",
+    "provider": "admin",
+    "technicalOwner": "Eve Moneypenny",
+    "businessOwner": "James Bond",
+    "tenant": "FinanceDept",
+    "featured": true,
+    "lifeCycleStatus": "PUBLISHED",
+    "responseCachingEnabled": true,
+    "cacheTimeout": 150,
+    "hasThumbnail": false,
+    "isDefaultVersion": true,
+    "isRevision": false,
+    "revisionedApiId": null,
+    "revisionId": 0,
+    "enableSchemaValidation": true,
+    "type": "REST",
+    "audience": "Internal",
+    "transport": ["http", "https"],
+    "tags": ["finance", "transactions", "reports"],
+    "policies": ["Premium"],
+    "apiThrottlingPolicy": "TwentyPerMin",
+    "authorizationHeader": "Authorization",
+    "securityScheme": ["oauth2"],
+    "maxTps": 2000,
+    "visibility": "PRIVATE",
+    "visibleRoles": ["finance_team"],
+    "visibleTenants": [],
+    "mediationPolicies": [],
+    "subscriptionAvailability": "SPECIFIC_TENANTS",
+    "subscriptionAvailableTenants": ["tenant1", "tenant2"],
+    "additionalProperties": [],
+    "additionalPropertiesMap": {},
+    "monetization": null,
+    "accessControl": "NONE",
+    "accessControlRoles": [],
+    "businessInformation": {
+      "businessOwner": "Eve Moneypenny",
+      "businessOwnerEmail": "eve.moneypenny@financedept.com",
+      "technicalOwner": "James Bond",
+      "technicalOwnerEmail": "james.bond@financedept.com"
+    },
+    "corsConfiguration": {
+      "corsConfigurationEnabled": true,
+      "accessControlAllowOrigins": ["*"],
+      "accessControlAllowCredentials": true,
+      "accessControlAllowHeaders": [
+        "authorization",
+        "Access-Control-Allow-Origin",
+        "Content-Type",
+        "SOAPAction"
+      ],
+      "accessControlAllowMethods": ["GET", "POST", "DELETE", "PUT"]
+    },
+    "openapiDefinition": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "FinanceAPI",
+        "description": "Handles financial transactions and reports.",
+        "version": "3.1.0",
+        "contact": {
+          "name": "API Support",
+          "email": "support@financeapi.com"
+        }
+      },
+      "servers": [
+        {
+          "url": "https://example.com/api",
+          "description": "Production server"
+        }
+      ],
+      "paths": {
+        "/transactions": {
+          "get": {
+            "summary": "Get all transactions",
+            "operationId": "getAllTransactions",
+            "tags": ["Transactions"],
+            "responses": {
+              "200": {
+                "description": "A list of transactions",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "post": {
+            "summary": "Create a new transaction",
+            "operationId": "createTransaction",
+            "tags": ["Transactions"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Transaction created",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Transaction"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/reports": {
+          "get": {
+            "summary": "Get financial reports",
+            "operationId": "getFinancialReports",
+            "tags": ["Reports"],
+            "parameters": [
+              {
+                "name": "startDate",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "description": "Start date for the report period"
+              },
+              {
+                "name": "endDate",
+                "in": "query",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "description": "End date for the report period"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Financial report data",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/FinancialReport"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Transaction": {
+            "type": "object",
+            "required": ["id", "amount", "type", "date"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the transaction"
+              },
+              "amount": {
+                "type": "number",
+                "description": "Transaction amount"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of transaction (e.g., \"income\", \"expense\")"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of the transaction"
+              },
+              "description": {
+                "type": "string",
+                "description": "Transaction description"
+              }
+            }
+          },
+          "FinancialReport": {
+            "type": "object",
+            "properties": {
+              "startDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Start date of the reporting period"
+              },
+              "endDate": {
+                "type": "string",
+                "format": "date",
+                "description": "End date of the reporting period"
+              },
+              "totalIncome": {
+                "type": "number",
+                "description": "Total income within the report period"
+              },
+              "totalExpenses": {
+                "type": "number",
+                "description": "Total expenses within the report period"
+              },
+              "netIncome": {
+                "type": "number",
+                "description": "Net income (total income - total expenses)"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "adbe05af-6a9d-4046-ad69-bce74b9c805b",
+    "name": "ShippingAPI",
+    "description": "Manages logistics and tracking of shipments.",
+    "context": "/shipping",
+    "version": "2.5.0",
+    "provider": "admin",
+    "technicalOwner": "Frodo Baggins",
+    "businessOwner": "Samwise Gamgee",
+    "tenant": "LogisticsDept",
+    "featured": false,
+    "lifeCycleStatus": "PUBLISHED",
+    "responseCachingEnabled": false,
+    "cacheTimeout": 0,
+    "hasThumbnail": true,
+    "isDefaultVersion": false,
+    "isRevision": true,
+    "revisionedApiId": "4c18be16-1b8a-4270-8262-09b65b8ea1c2",
+    "revisionId": 2,
+    "enableSchemaValidation": false,
+    "type": "REST",
+    "audience": "External",
+    "transport": ["https"],
+    "tags": ["shipping", "logistics", "tracking"],
+    "policies": ["Standard"],
+    "apiThrottlingPolicy": "FiftyPerMin",
+    "authorizationHeader": "Authorization",
+    "securityScheme": ["oauth2"],
+    "maxTps": 100,
+    "visibility": "PUBLIC",
+    "visibleRoles": [],
+    "visibleTenants": [],
+    "mediationPolicies": [],
+    "subscriptionAvailability": "CURRENT_TENANT",
+    "subscriptionAvailableTenants": [],
+    "additionalProperties": [],
+    "additionalPropertiesMap": {},
+    "monetization": null,
+    "accessControl": "NONE",
+    "accessControlRoles": [],
+    "businessInformation": {
+      "businessOwner": "Samwise Gamgee",
+      "businessOwnerEmail": "samwise.gamgee@logisticsdept.com",
+      "technicalOwner": "Frodo Baggins",
+      "technicalOwnerEmail": "frodo.baggins@logisticsdept.com"
+    },
+    "corsConfiguration": {
+      "corsConfigurationEnabled": true,
+      "accessControlAllowOrigins": ["https://exampleclient.com"],
+      "accessControlAllowCredentials": false,
+      "accessControlAllowHeaders": [
+        "authorization",
+        "Access-Control-Allow-Origin",
+        "Content-Type"
+      ],
+      "accessControlAllowMethods": ["GET", "POST", "PATCH", "OPTIONS"]
+    },
+    "openapiDefinition": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "ShippingAPI",
+        "description": "Manages logistics and tracking of shipments.",
+        "version": "2.5.0",
+        "contact": {
+          "name": "API Support",
+          "email": "support@shippingapi.com"
+        }
+      },
+      "servers": [
+        {
+          "url": "https://example.com/api",
+          "description": "Production server"
+        }
+      ],
+      "paths": {
+        "/shipments": {
+          "get": {
+            "summary": "List all shipments",
+            "operationId": "listShipments",
+            "tags": ["Shipments"],
+            "responses": {
+              "200": {
+                "description": "An array of shipments",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Shipment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "post": {
+            "summary": "Create a new shipment",
+            "operationId": "createShipment",
+            "tags": ["Shipments"],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Shipment"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Shipment created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Shipment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/shipments/{shipmentId}": {
+          "get": {
+            "summary": "Get a shipment by ID",
+            "operationId": "getShipmentById",
+            "tags": ["Shipments"],
+            "parameters": [
+              {
+                "name": "shipmentId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Unique identifier of the shipment"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Detailed information about the shipment",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Shipment"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Shipment not found"
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "Shipment": {
+            "type": "object",
+            "required": ["id", "origin", "destination", "status"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the shipment"
+              },
+              "origin": {
+                "type": "string",
+                "description": "Origin of the shipment"
+              },
+              "destination": {
+                "type": "string",
+                "description": "Destination of the shipment"
+              },
+              "status": {
+                "type": "string",
+                "description": "Current status of the shipment (e.g., \"pending\", \"in transit\", \"delivered\")"
+              },
+              "estimatedDeliveryDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Estimated delivery date"
+              },
+              "carrier": {
+                "type": "string",
+                "description": "Carrier handling the shipment"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]
