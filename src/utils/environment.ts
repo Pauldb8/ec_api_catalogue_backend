@@ -26,4 +26,9 @@ export const nodeEnvironment = process.env.NODE_ENV;
 export const accessLogPath = process.env.ACCESS_LOG_PATH ?? '';
 export const authJwtSecret = process.env.AUTH_JWT_SECRET;
 export const sentryDsn = process.env.SENTRY_DSN;
-export const mongoURI = process.env.MONGODB_URI ?? '';
+
+// Use differents Mongo Databases for test and other env
+export const mongoURI =
+  (nodeEnvironment !== 'test'
+    ? process.env.MONGODB_URI
+    : process.env.MONGODB_TEST_URI) ?? '';

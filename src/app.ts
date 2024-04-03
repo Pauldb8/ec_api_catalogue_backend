@@ -16,15 +16,19 @@ import swaggerUi from 'swagger-ui-express';
 const app = express();
 
 // Morgan logger setup
-if (nodeEnvironment) {
-  mkdirSync(path.dirname(accessLogPath), { recursive: true });
-  app.use(
-    morgan('combined', {
-      stream: fs.createWriteStream(accessLogPath, { flags: 'a' }),
-    }),
-  );
-} else {
-  app.use(morgan('dev'));
+switch (nodeEnvironment) {
+  case 'production':
+    mkdirSync(path.dirname(accessLogPath), { recursive: true });
+    app.use(
+      morgan('combined', {
+        stream: fs.createWriteStream(accessLogPath, { flags: 'a' }),
+      }),
+    );
+    break;
+
+  case 'development':
+    app.use(morgan('dev'));
+    break;
 }
 
 // Connect to the database

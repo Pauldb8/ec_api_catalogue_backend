@@ -2,7 +2,9 @@
 .vscode
 dist
 node_modules
+src/utils/dev-mongo-init
 static
+test
 .dockerignore
 .env
 .git*
