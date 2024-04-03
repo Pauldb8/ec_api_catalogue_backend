@@ -3,7 +3,7 @@ const apisPaths = {
     get: {
       summary: 'Retrieve a list of APIs',
       description:
-        'Returns a list of APIs from the catalog. Supports filtering by search term, environment, and featured status.',
+        'Returns a list of APIs from the catalog. Supports filtering by search term, tenant, and featured status.',
       parameters: [
         {
           name: 'search',
@@ -16,14 +16,13 @@ const apisPaths = {
           },
         },
         {
-          name: 'environment',
+          name: 'tenant',
           in: 'query',
           description:
-            "Filter APIs by their environment, such as 'intra', 'extra', 'acceptance' or 'capi'.",
+            'Filter APIs by their tenant, identifying the owner or consumer of the API.',
           required: false,
           schema: {
             type: 'string',
-            enum: ['intra', 'extra', 'acceptance', 'capi'],
           },
         },
         {

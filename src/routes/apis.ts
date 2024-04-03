@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import ApiModel from '../models/apiModel';
-import IApi from '../models/apiModel'; // Import the IApi type
+import IApi from '../models/apiModel';
 import { Document } from 'mongoose';
 
 const router = Router();
@@ -14,12 +14,12 @@ const searchableFields = [
   'description',
 ];
 
-// GET APIs with optional search, environment, and featured filters
+// GET APIs with optional search, tenant, and featured filters
 router.route('/').get(async (req: Request, res: Response) => {
   try {
-    const { search, environment, featured } = req.query as {
+    const { search, tenant, featured } = req.query as {
       search?: string;
-      environment?: string;
+      tenant?: string;
       featured?: string;
     };
 
@@ -32,9 +32,9 @@ router.route('/').get(async (req: Request, res: Response) => {
       }));
     }
 
-    // Filter by environment if specified
-    if (environment) {
-      query.environment = environment;
+    // Filter by tenant if specified
+    if (tenant) {
+      query.tenant = tenant;
     }
 
     // Filter by featured if specified

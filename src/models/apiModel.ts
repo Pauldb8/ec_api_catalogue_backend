@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface IApi extends Document {
+  id: string;
   name: string;
   description: string;
   context: string;
@@ -10,10 +11,11 @@ interface IApi extends Document {
   provider: string;
   openapiDefinition: object;
   featured: boolean;
-  environment: 'intra' | 'extra' | 'acceptance' | 'capi';
+  tenant: string;
 }
 
 const ApiSchema: Schema = new Schema({
+  id: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
   context: { type: String, required: true },
@@ -23,11 +25,7 @@ const ApiSchema: Schema = new Schema({
   provider: { type: String, required: true },
   openapiDefinition: { type: Schema.Types.Mixed, required: true },
   featured: { type: Boolean, required: true, default: false },
-  environment: {
-    type: String,
-    required: true,
-    enum: ['intra', 'extra', 'acceptance', 'capi'],
-  },
+  tenant: { type: String, required: true },
 });
 
 export default mongoose.model<IApi>('Api', ApiSchema);
