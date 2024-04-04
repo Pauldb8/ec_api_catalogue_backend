@@ -7,10 +7,13 @@
   "scripts": {
     "build": "webpack",
     "lint-repo": "eslint --ext .ts --fix .",
+    "check-lint-repo": "eslint --ext .ts .",
     "lint-file": "eslint --ext .ts --fix",
     "format-repo": "prettier --ignore-path .gitignore --ignore-unknown --write .",
+    "check-format-repo": "prettier --ignore-path .gitignore --ignore-unknown --check .",
     "format-file": "prettier --ignore-path .gitignore --ignore-unknown --write",
     "lint-and-format-repo": "npm run lint-repo && npm run format-repo",
+    "check-lint-and-format-repo": "npm run check-lint-repo && npm run check-format-repo",
     "lint-and-format-staged": "lint-staged",
     "prepare": "husky install",
     "dev": "nodemon src/server.ts",
