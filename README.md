@@ -196,6 +196,24 @@ The Swagger UI based on that OpenAPI spec is accessible at http://localhost:3000
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Testing
+
+The testing framework automatically creates an isolated test database and populates it with test data, all within the local MongoDB Docker container.
+
+To execute the tests, ensure your **docker development environment is running**, and run the following command:
+
+```sh
+docker compose exec ec_api_catalogue_backend npm run test
+```
+
+This command initiates the test suite within the Node container that runs the application, ensuring that all tests are conducted in an environment identical to the development setup.
+
+All tests should pass, and the output should look like this:
+
+![Screenshot of all test passing in the CLI](docs/images/test-cli.png)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- FOLDER STRUCTURE AND EXPLANATIONS -->
 
 ## Folder Structure
@@ -205,7 +223,7 @@ The Swagger UI based on that OpenAPI spec is accessible at http://localhost:3000
 ├── .husky/                   # Configuration for running lint before commit.
 ├── .vscode/                  # Recommended VSCode configuration for that project.
 ├── docs/                     # Project level documentation and resources.
-│   └── images/                # Images used to illustrate the documentation.
+│   └── images/               # Images used to illustrate the documentation.
 ├── src/                      # Source code of the application.
 │   ├── docs/                 # The app's OpenAPI specifications.
 │   │   ├── components/       # Reusable components for OpenAPI documentation.
@@ -216,7 +234,12 @@ The Swagger UI based on that OpenAPI spec is accessible at http://localhost:3000
 │   ├── routes/               # Route definitions for the API.
 │   ├── utils/                # Utility scripts and helpers.
 │   │   └── dev-mongo-init/   # Scripts for initializing MongoDB in development.
-│   └── app.ts                # Main application entry point.
+│   ├── app.ts                # The file that creates the app, to serve or test.
+│   └── server.ts             # The file that serves the app.
+├── test/                     # Contains automated tests for the application.
+│   ├── config/               # Test configuration files.
+│   ├── data/                 # Test data for use in testing environments.
+│   └── *.test.ts             # Test files written in TypeScript.
 ├── .dockerignore             # Lists patterns to exclude from Docker builds.
 ├── .env                      # Local environment variables (not to be committed).
 ├── .env.example              # Template for .env file.
