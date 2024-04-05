@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ApiModel from '../models/apiModel';
 import IApi from '../models/apiModel';
-import { Document } from 'mongoose';
+import { Document, Error } from 'mongoose';
 
 const router = Router();
 
@@ -119,6 +119,35 @@ router.route('/').post(async (req: Request, res: Response) => {
     } else {
       res.status(500).send('Internal Server Error');
     }
+  }
+});
+
+// PATCH an API by ID
+router.patch('/:apiId', async (req: Request, res: Response) => {
+  const { apiId } = req.params;
+
+  try {
+    const updatedApi = await ApiModel.findOneAndUpdate(
+      { id: apiId },
+      req.body,
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedApi) {
+      return res.status(404).send('API not found');
+    }
+
+    res.json(updatedApi);
+  } catch (err) {
+    const error = err as Error;
+    console.error('Error partially updating API:', error);
+
+    if (error instanceof Error.ValidationError) {
+      return res.status(400).send(error.message);
+    } else if (error.name === 'CastError') {
+      return res.status(400).send(error.message);
+    }
+    res.status(500).send('Internal Server Error');
   }
 });
 

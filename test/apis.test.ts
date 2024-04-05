@@ -117,4 +117,54 @@ describe('API Routes', () => {
       expect(response.body).toHaveProperty('name', apiToCreate.name);
     });
   });
+
+  describe('PATCH /apis/:apiId', () => {
+    let apiIdToUpdate: string;
+    const apiToCreate = JSON.parse(
+      fs.readFileSync('test/data/api-to-create.json', 'utf8'),
+    );
+
+    beforeAll(async () => {
+      const createdApiResponse = await request(app)
+        .post('/apis')
+        .send(apiToCreate);
+      apiIdToUpdate = createdApiResponse.body.id;
+    });
+
+    it('should partially update an existing API', async () => {
+      const partialUpdate = {
+        description: 'Updated description',
+        featured: false,
+      };
+
+      const response = await request(app)
+        .patch(`/apis/${apiIdToUpdate}`)
+        .send(partialUpdate);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveProperty(
+        'description',
+        partialUpdate.description,
+      );
+      expect(response.body).toHaveProperty('featured', partialUpdate.featured);
+      // Verify the response still contains properties that were not updated
+      expect(response.body).toHaveProperty('name', apiToCreate.name);
+    });
+
+    it('should return 404 for a non-existent API ID on update', async () => {
+      const nonExistentApiId = '371fc329-caa0-4868-b21b-e42f9c089784';
+      const response = await request(app)
+        .patch(`/apis/${nonExistentApiId}`)
+        .send({ description: 'New description' });
+      expect(response.statusCode).toBe(404);
+    });
+
+    it('should return 400 for invalid updates', async () => {
+      const invalidUpdate = { featured: 'not-a-boolean' }; // Incorrect type for 'featured'
+      const response = await request(app)
+        .patch(`/apis/${apiIdToUpdate}`)
+        .send(invalidUpdate);
+      expect(response.statusCode).toBe(400);
+    });
+  });
 });

@@ -123,6 +123,65 @@ const apisPaths = {
         },
       },
     },
+    patch: {
+      summary: 'Update parts of an existing API',
+      description: 'Performs a partial update of an API identified by its ID.',
+      parameters: [
+        {
+          name: 'apiId',
+          in: 'path',
+          required: true,
+          description: 'The ID of the API to update.',
+          schema: {
+            type: 'string',
+          },
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                description: { type: 'string' },
+                context: { type: 'string' },
+                businessOwner: { type: 'string' },
+                technicalOwner: { type: 'string' },
+                version: { type: 'string' },
+                provider: { type: 'string' },
+                openapiDefinition: { type: 'object' },
+                featured: { type: 'boolean' },
+                tenant: { type: 'string' },
+              },
+              required: [],
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'API updated successfully',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Api',
+              },
+            },
+          },
+        },
+        '400': {
+          description: 'Invalid input',
+        },
+        '404': {
+          description: 'API not found',
+        },
+        '500': {
+          description: 'Internal Server Error',
+        },
+      },
+    },
   },
 };
 

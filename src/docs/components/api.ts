@@ -51,6 +51,7 @@ const apiComponent = {
       },
     },
     required: [
+      'id',
       'name',
       'description',
       'context',
