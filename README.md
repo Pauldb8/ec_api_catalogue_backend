@@ -251,6 +251,7 @@ All tests should pass, and the output should look like this:
 ├── .prettierrc               # Prettier code formatting configuration.
 ├── docker-compose.yml        # Base Docker Compose configuration for development.
 ├── Dockerfile                # Instructions to build the Docker image for the app.
+├── jest.config.ts            # Jest testing framework configuration.
 ├── LICENSE                   # The license for the project.
 ├── package-lock.json         # Locked versions of the entire dependency tree.
 ├── package.json              # NPM package specifications and scripts.
