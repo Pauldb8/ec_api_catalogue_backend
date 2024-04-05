@@ -6,9 +6,9 @@
   "description": "European Commission - API Catalogue Backend",
   "scripts": {
     "build": "webpack",
-    "lint-repo": "eslint --ext .ts --fix .",
-    "check-lint-repo": "eslint --ext .ts .",
-    "lint-file": "eslint --ext .ts --fix",
+    "lint-repo": "eslint --ignore-path .gitignore --ext .ts --fix .",
+    "check-lint-repo": "eslint --ignore-path .gitignore --ext .ts .",
+    "lint-file": "eslint --ignore-path .gitignore --ext .ts --fix",
     "format-repo": "prettier --ignore-path .gitignore --ignore-unknown --write .",
     "check-format-repo": "prettier --ignore-path .gitignore --ignore-unknown --check .",
     "format-file": "prettier --ignore-path .gitignore --ignore-unknown --write",

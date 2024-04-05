@@ -243,7 +243,6 @@ All tests should pass, and the output should look like this:
 ├── .dockerignore             # Lists patterns to exclude from Docker builds.
 ├── .env                      # Local environment variables (not to be committed).
 ├── .env.example              # Template for .env file.
-├── .eslintignore             # Files and directories to exclude from linting.
 ├── .eslintrc.yml             # ESLint rules and configurations.
 ├── .gitignore                # Specifies intentionally untracked files to ignore.
 ├── .gitlab-ci.yml            # GitLab CI configuration for the CI/CD pipeline.
