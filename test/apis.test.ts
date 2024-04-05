@@ -19,18 +19,18 @@ describe('API Routes', () => {
     it('should return all APIs without any filter and expect 4 APIs', async () => {
       const response = await request(app).get('/apis');
       expect(response.statusCode).toBe(200);
-      expect(response.body).toBeInstanceOf(Array);
-      expect(response.body).toHaveLength(4);
+      expect(response.body.apis).toBeInstanceOf(Array);
+      expect(response.body.apis).toHaveLength(4);
     });
 
     it('should filter APIs by search term', async () => {
       const searchTerm = 'forecasting';
       const response = await request(app).get(`/apis?search=${searchTerm}`);
       expect(response.statusCode).toBe(200);
-      expect(response.body).toBeInstanceOf(Array);
-      expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body.apis).toBeInstanceOf(Array);
+      expect(response.body.apis.length).toBeGreaterThan(0);
       expect(
-        response.body.every(
+        response.body.apis.every(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (api: any) =>
             api.name.includes(searchTerm) ||
@@ -46,9 +46,11 @@ describe('API Routes', () => {
       const tenant = 'FinanceDept';
       const response = await request(app).get(`/apis?tenant=${tenant}`);
       expect(response.statusCode).toBe(200);
-      expect(response.body).toBeInstanceOf(Array);
+      expect(response.body.apis).toBeInstanceOf(Array);
       expect(
-        response.body.every((api: { tenant: string }) => api.tenant === tenant),
+        response.body.apis.every(
+          (api: { tenant: string }) => api.tenant === tenant,
+        ),
       ).toBeTruthy();
     });
 
@@ -56,12 +58,69 @@ describe('API Routes', () => {
       const featured = 'true';
       const response = await request(app).get(`/apis?featured=${featured}`);
       expect(response.statusCode).toBe(200);
-      expect(response.body).toBeInstanceOf(Array);
+      expect(response.body.apis).toBeInstanceOf(Array);
       expect(
-        response.body.every(
+        response.body.apis.every(
           (api: { featured: boolean }) => api.featured === true,
         ),
       ).toBeTruthy();
+    });
+
+    it('should use default pagination settings when none are specified', async () => {
+      const response = await request(app).get('/apis');
+      expect(response.statusCode).toBe(200);
+      expect(response.body.apis).toBeInstanceOf(Array);
+      expect(response.body).toHaveProperty('currentPage', 1);
+      expect(response.body).toHaveProperty('itemsPerPage', 10);
+      expect(response.body.totalPages).toBeDefined();
+    });
+
+    it('should correctly paginate to a given page with a given limit', async () => {
+      const response = await request(app).get('/apis?page=2&limit=2');
+      expect(response.statusCode).toBe(200);
+      expect(response.body.apis).toBeInstanceOf(Array);
+      expect(response.body.apis).toHaveLength(2);
+      expect(response.body).toHaveProperty('currentPage', 2);
+      expect(response.body).toHaveProperty('itemsPerPage', 2);
+      expect(response.body.totalPages).toBeDefined();
+    });
+
+    it('should return an empty array when requesting a page number beyond the total number of pages', async () => {
+      const pageNumberBeyondTotal = 100;
+      const response = await request(app).get(
+        `/apis?page=${pageNumberBeyondTotal}`,
+      );
+      expect(response.statusCode).toBe(200);
+      expect(response.body.apis).toBeInstanceOf(Array);
+      expect(response.body.apis).toHaveLength(0);
+      expect(response.body.currentPage).toBe(pageNumberBeyondTotal);
+      expect(response.body.itemsPerPage).toBe(10);
+      expect(response.body.totalPages).toBeDefined();
+    });
+
+    it('should handle invalid page and limit values gracefully', async () => {
+      const responseForInvalidPage = await request(app).get(
+        '/apis?page=-1&limit=10',
+      );
+      expect(responseForInvalidPage.statusCode).toBe(200);
+      expect(responseForInvalidPage.body.currentPage).toBe(1); // Default to the first page if an invalid page number is provided
+
+      const responseForInvalidLimit = await request(app).get(
+        '/apis?page=1&limit=-10',
+      );
+      expect(responseForInvalidLimit.statusCode).toBe(200);
+      expect(responseForInvalidLimit.body.itemsPerPage).toBe(10); // Default to a predefined limit if an invalid limit is provided
+    });
+
+    it('should return correct totalPages when there are no APIs matching the filter criteria', async () => {
+      const searchTermThatMatchesNothing = 'xyz123nonexistent';
+      const response = await request(app).get(
+        `/apis?search=${searchTermThatMatchesNothing}`,
+      );
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.apis).toHaveLength(0);
+      expect(response.body.totalPages).toBe(0); // Expect totalPages to be 0 when no APIs match the search criteria
     });
   });
 

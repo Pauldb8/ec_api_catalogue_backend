@@ -17,6 +17,13 @@ const searchableFields = [
 // GET APIs with optional search, tenant, and featured filters
 router.route('/').get(async (req: Request, res: Response) => {
   try {
+    let page = parseInt(req.query.page as string, 10);
+    let limit = parseInt(req.query.limit as string, 10);
+
+    // Correcting page and limit values to positive numbers or defaults
+    page = !isNaN(page) && page > 0 ? page : 1;
+    limit = !isNaN(limit) && limit > 0 ? limit : 10;
+
     const { search, tenant, featured } = req.query as {
       search?: string;
       tenant?: string;
@@ -25,24 +32,25 @@ router.route('/').get(async (req: Request, res: Response) => {
 
     const query: { [key: string]: unknown } = {};
 
-    // Add search term condition if provided
+    // Constructing query based on request parameters
     if (search) {
       query.$or = searchableFields.map(field => ({
         [field]: { $regex: search, $options: 'i' },
       }));
     }
-
-    // Filter by tenant if specified
     if (tenant) {
       query.tenant = tenant;
     }
-
-    // Filter by featured if specified
     if (featured !== undefined) {
       query.featured = featured === 'true';
     }
 
-    const apis = await ApiModel.find(query); // Execute the query with filters
+    const totalDocs = await ApiModel.countDocuments(query);
+    const totalPages = Math.ceil(totalDocs / limit);
+
+    const apis = await ApiModel.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     // Sort the results based on the field importance if search term is provided
     if (search) {
@@ -77,7 +85,12 @@ router.route('/').get(async (req: Request, res: Response) => {
       });
     }
 
-    res.json(apis);
+    res.json({
+      currentPage: page,
+      totalPages: totalPages,
+      itemsPerPage: limit,
+      apis: apis,
+    });
   } catch (error) {
     console.error('Error retrieving/searching APIs:', error);
     res.status(500).send('Internal Server Error');
