@@ -3,7 +3,7 @@ const apisPaths = {
     get: {
       summary: 'Retrieve a list of APIs',
       description:
-        'Returns a list of APIs from the catalog. Supports filtering by search term, tenant, and featured status.',
+        'Returns a list of APIs from the catalogue. Supports filtering by search term, tenant, and featured status, with pagination.',
       parameters: [
         {
           name: 'search',
@@ -35,16 +35,53 @@ const apisPaths = {
             type: 'boolean',
           },
         },
+        {
+          name: 'page',
+          in: 'query',
+          description: 'Page number for pagination (starts from 1).',
+          required: false,
+          schema: {
+            type: 'integer',
+            default: 1,
+          },
+        },
+        {
+          name: 'limit',
+          in: 'query',
+          description: 'Number of items per page for pagination.',
+          required: false,
+          schema: {
+            type: 'integer',
+            default: 10,
+          },
+        },
       ],
       responses: {
         '200': {
-          description: 'A JSON array of APIs',
+          description: 'A paginated list of APIs',
           content: {
             'application/json': {
               schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Api',
+                type: 'object',
+                properties: {
+                  currentPage: {
+                    type: 'integer',
+                    example: 1,
+                  },
+                  totalPages: {
+                    type: 'integer',
+                    example: 5,
+                  },
+                  itemsPerPage: {
+                    type: 'integer',
+                    example: 10,
+                  },
+                  apis: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/Api',
+                    },
+                  },
                 },
               },
             },
