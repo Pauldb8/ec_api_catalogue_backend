@@ -51,7 +51,11 @@
         <li><a href="#building-production-docker-image">Building Production Docker Image</a></li>
       </ul>
     </li>
-    <li><a href="#how-to-use">How To Use</a></li>
+    <li><a href="#how-to-use">How To Use</a>
+      <ul>
+        <li><a href="#testing">Testing</a></li>
+      </ul>
+    </li>
     <li><a href="#folder-structure">Folder Structure</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
