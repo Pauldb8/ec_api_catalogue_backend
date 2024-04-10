@@ -252,6 +252,7 @@ All tests should pass, and the output should look like this:
 ├── .gitlab-ci.yml            # GitLab CI configuration for the CI/CD pipeline.
 ├── .lintstagedrc.json        # Configuration for lint-staged.
 ├── .prettierrc               # Prettier code formatting configuration.
+├── docker-compose.ci.yml     # Docker Compose configuration for the ci pipeline.
 ├── docker-compose.yml        # Base Docker Compose configuration for development.
 ├── Dockerfile                # Instructions to build the Docker image for the app.
 ├── jest.config.ts            # Jest testing framework configuration.
