@@ -79,7 +79,7 @@ const apisPaths = {
                   apis: {
                     type: 'array',
                     items: {
-                      $ref: '#/components/schemas/Api',
+                      $ref: '#/components/schemas/ApiSummary',
                     },
                   },
                 },

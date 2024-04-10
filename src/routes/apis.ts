@@ -48,7 +48,15 @@ router.route('/').get(async (req: Request, res: Response) => {
     const totalDocs = await ApiModel.countDocuments(query);
     const totalPages = Math.ceil(totalDocs / limit);
 
+    // Filter fields to include in the response
+    const fieldsToExclude = ['openapiDefinition'];
+    const selectFields = Object.keys(ApiModel.schema.paths)
+      .filter(field => !fieldsToExclude.includes(field))
+      .join(' ')
+      .concat(' -_id'); // Exclude the _id field by default
+
     const apis = await ApiModel.find(query)
+      .select(selectFields)
       .skip((page - 1) * limit)
       .limit(limit);
 
