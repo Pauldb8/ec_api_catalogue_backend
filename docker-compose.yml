@@ -9,7 +9,7 @@ services:
       - NODE_ENV=development
       - ACCESS_LOG_PATH=logs/access.log
       - AUTH_JWT_SECRET=super-secret-never-share
-      - SENTRY_DSN=
+      - SENTRY_DSN=""
       - MONGODB_URI=mongodb://webapp:password@mongodb/ec_api_catalogue_backend
       - MONGODB_TEST_URI=mongodb://test:testpassword@mongodb/ec_api_catalogue_backend_test
     env_file:
