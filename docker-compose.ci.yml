@@ -1,20 +1,18 @@
 services:
   ec_api_catalogue_backend:
-    image: node:20
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
     depends_on:
       - mongodb
-    working_dir: /usr/src/app
-    user: node:node
     environment:
       - NODE_ENV=development
       - ACCESS_LOG_PATH=logs/access.log
       - AUTH_JWT_SECRET=super-secret-never-share
-      - SENTRY_DSN=
+      - SENTRY_DSN=""
       - MONGODB_URI=mongodb://webapp:password@mongodb/ec_api_catalogue_backend
       - MONGODB_TEST_URI=mongodb://test:testpassword@mongodb/ec_api_catalogue_backend_test
-    volumes:
-      - ./:/usr/src/app
-    command: /bin/sh -c "npm install && npm run dev"
 
   mongodb:
     image: mongo:7
@@ -28,6 +26,3 @@ services:
       - MONGO_INITDB_DATABASE=ec_api_catalogue_backend
     volumes:
       - ./src/utils/dev-mongo-init/:/docker-entrypoint-initdb.d/:ro
-
-volumes:
-  mongodb_data:

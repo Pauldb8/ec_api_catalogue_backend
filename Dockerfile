@@ -3,6 +3,26 @@ ARG NODE_VERSION=20
 
 
 ####################
+###  TEST BUILD  ###
+####################
+
+FROM node:${NODE_VERSION} as test
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package*.json ./
+
+RUN npm ci
+
+COPY --chown=node:node . .
+
+CMD [ "npm", "run", "dev" ]
+
+
+
+####################
 ###  BASE BUILD  ###
 ####################
 
