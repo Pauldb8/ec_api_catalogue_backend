@@ -3,7 +3,7 @@ const apisPaths = {
     get: {
       summary: 'Retrieve a list of APIs',
       description:
-        'Returns a list of APIs from the catalog. Supports filtering by search term, environment, and featured status.',
+        'Returns a list of APIs from the catalogue. Supports filtering by search term, tenant, and featured status, with pagination.',
       parameters: [
         {
           name: 'search',
@@ -16,14 +16,13 @@ const apisPaths = {
           },
         },
         {
-          name: 'environment',
+          name: 'tenant',
           in: 'query',
           description:
-            "Filter APIs by their environment, such as 'intra', 'extra', 'acceptance' or 'capi'.",
+            'Filter APIs by their tenant, identifying the owner or consumer of the API.',
           required: false,
           schema: {
             type: 'string',
-            enum: ['intra', 'extra', 'acceptance', 'capi'],
           },
         },
         {
@@ -36,16 +35,53 @@ const apisPaths = {
             type: 'boolean',
           },
         },
+        {
+          name: 'page',
+          in: 'query',
+          description: 'Page number for pagination (starts from 1).',
+          required: false,
+          schema: {
+            type: 'integer',
+            default: 1,
+          },
+        },
+        {
+          name: 'limit',
+          in: 'query',
+          description: 'Number of items per page for pagination.',
+          required: false,
+          schema: {
+            type: 'integer',
+            default: 10,
+          },
+        },
       ],
       responses: {
         '200': {
-          description: 'A JSON array of APIs',
+          description: 'A paginated list of APIs',
           content: {
             'application/json': {
               schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Api',
+                type: 'object',
+                properties: {
+                  currentPage: {
+                    type: 'integer',
+                    example: 1,
+                  },
+                  totalPages: {
+                    type: 'integer',
+                    example: 5,
+                  },
+                  itemsPerPage: {
+                    type: 'integer',
+                    example: 10,
+                  },
+                  apis: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/ApiSummary',
+                    },
+                  },
                 },
               },
             },
@@ -115,6 +151,65 @@ const apisPaths = {
               },
             },
           },
+        },
+        '404': {
+          description: 'API not found',
+        },
+        '500': {
+          description: 'Internal Server Error',
+        },
+      },
+    },
+    patch: {
+      summary: 'Update parts of an existing API',
+      description: 'Performs a partial update of an API identified by its ID.',
+      parameters: [
+        {
+          name: 'apiId',
+          in: 'path',
+          required: true,
+          description: 'The ID of the API to update.',
+          schema: {
+            type: 'string',
+          },
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                description: { type: 'string' },
+                context: { type: 'string' },
+                businessOwner: { type: 'string' },
+                technicalOwner: { type: 'string' },
+                version: { type: 'string' },
+                provider: { type: 'string' },
+                openapiDefinition: { type: 'object' },
+                featured: { type: 'boolean' },
+                tenant: { type: 'string' },
+              },
+              required: [],
+            },
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'API updated successfully',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Api',
+              },
+            },
+          },
+        },
+        '400': {
+          description: 'Invalid input',
         },
         '404': {
           description: 'API not found',

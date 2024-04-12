@@ -6,7 +6,9 @@
     "context": "/pizzashack",
     "version": "1.0.0",
     "provider": "admin",
-    "environment": "acceptance",
+    "technicalOwner": "John Doe",
+    "businessOwner": "John Doe",
+    "tenant": "EC CC Acceptance",
     "featured": false,
     "lifeCycleStatus": "PUBLISHED",
     "wsdlInfo": null,
@@ -174,7 +176,7 @@
     "gatewayVendor": "wso2",
     "gatewayType": "wso2/synapse",
     "asyncTransportProtocols": [],
-    "swaggerDefinition": {
+    "openapiDefinition": {
       "openapi": "3.0.0",
       "info": {
         "title": "PizzaShackAPI",
@@ -553,7 +555,9 @@
     "context": "/pizzashack-featured",
     "version": "1.0.0",
     "provider": "admin",
-    "environment": "intra",
+    "technicalOwner": "John Smith",
+    "businessOwner": "Gala Aysun",
+    "tenant": "EC CC Production",
     "featured": true,
     "lifeCycleStatus": "PUBLISHED",
     "wsdlInfo": null,
@@ -721,7 +725,7 @@
     "gatewayVendor": "wso2",
     "gatewayType": "wso2/synapse",
     "asyncTransportProtocols": [],
-    "swaggerDefinition": {
+    "openapiDefinition": {
       "openapi": "3.0.0",
       "info": {
         "title": "PizzaShackAPI",
@@ -1100,7 +1104,9 @@
     "context": "/other-api",
     "version": "1.0.0",
     "provider": "admin",
-    "environment": "intra",
+    "technicalOwner": "Tsiuri Katerina",
+    "businessOwner": "Wilfredo Cilka",
+    "tenant": "EC CC Intra",
     "featured": false,
     "lifeCycleStatus": "PUBLISHED",
     "wsdlInfo": null,
@@ -1268,7 +1274,7 @@
     "gatewayVendor": "wso2",
     "gatewayType": "wso2/synapse",
     "asyncTransportProtocols": [],
-    "swaggerDefinition": {
+    "openapiDefinition": {
       "openapi": "3.0.0",
       "info": {
         "title": "PizzaShackAPI",

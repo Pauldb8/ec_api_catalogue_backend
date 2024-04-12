@@ -1,7 +1,9 @@
 import apiComponent from './api';
+import apiSummaryComponent from './apiSummary';
 
 const allComponents = [
   apiComponent,
+  apiSummaryComponent,
   // Add other components as you create them
 ];
 

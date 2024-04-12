@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { ZodError } from 'zod';
-import { nodeEnvironment } from '../utils/environment';
+import { isProdEnv } from '../utils/isProdEnv';
 
 export class ClientError extends Error {
   statusCode: number;
@@ -40,7 +40,7 @@ export const errorHandler: ErrorRequestHandler = (
   else
     res.status(res.statusCode >= 400 ? res.statusCode : 500).json({
       message: err.message,
-      stack: nodeEnvironment ? '💶' : err.stack,
+      stack: isProdEnv() ? '💶' : err.stack,
     });
   next();
 };

@@ -2,6 +2,10 @@ const apiComponent = {
   Api: {
     type: 'object',
     properties: {
+      id: {
+        type: 'string',
+        description: 'The UUID of the API in the WSO2 or Consul environment.',
+      },
       name: {
         type: 'string',
         description: 'The name of the API.',
@@ -30,24 +34,24 @@ const apiComponent = {
         type: 'string',
         description: 'The provider of the API.',
       },
-      openapiDefinition: {
-        type: 'object',
-        description: 'The OpenAPI definition for the API.',
-        additionalProperties: true,
-      },
       featured: {
         type: 'boolean',
         description:
           'Indicates if the API is featured in the API Catalogue, which means displayed on the main page.',
         default: false,
       },
-      environment: {
+      tenant: {
         type: 'string',
-        description: 'The operational environment of the API.',
-        enum: ['intra', 'extra', 'acceptance', 'capi'],
+        description: 'The tenant of the API.',
+      },
+      openapiDefinition: {
+        type: 'object',
+        description: 'The OpenAPI definition for the API.',
+        additionalProperties: true,
       },
     },
     required: [
+      'id',
       'name',
       'description',
       'context',
@@ -55,8 +59,8 @@ const apiComponent = {
       'technicalOwner',
       'version',
       'provider',
+      'tenant',
       'openapiDefinition',
-      'environment',
     ],
   },
 };

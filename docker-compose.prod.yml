@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   ec_api_catalogue_backend:

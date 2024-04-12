@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import ApiModel from '../models/apiModel';
-import IApi from '../models/apiModel'; // Import the IApi type
-import { Document } from 'mongoose';
+import IApi from '../models/apiModel';
+import { Document, Error } from 'mongoose';
 
 const router = Router();
 
@@ -14,35 +14,51 @@ const searchableFields = [
   'description',
 ];
 
-// GET APIs with optional search, environment, and featured filters
+// GET APIs with optional search, tenant, and featured filters
 router.route('/').get(async (req: Request, res: Response) => {
   try {
-    const { search, environment, featured } = req.query as {
+    let page = parseInt(req.query.page as string, 10);
+    let limit = parseInt(req.query.limit as string, 10);
+
+    // Correcting page and limit values to positive numbers or defaults
+    page = !isNaN(page) && page > 0 ? page : 1;
+    limit = !isNaN(limit) && limit > 0 ? limit : 10;
+
+    const { search, tenant, featured } = req.query as {
       search?: string;
-      environment?: string;
+      tenant?: string;
       featured?: string;
     };
 
     const query: { [key: string]: unknown } = {};
 
-    // Add search term condition if provided
+    // Constructing query based on request parameters
     if (search) {
       query.$or = searchableFields.map(field => ({
         [field]: { $regex: search, $options: 'i' },
       }));
     }
-
-    // Filter by environment if specified
-    if (environment) {
-      query.environment = environment;
+    if (tenant) {
+      query.tenant = tenant;
     }
-
-    // Filter by featured if specified
     if (featured !== undefined) {
       query.featured = featured === 'true';
     }
 
-    const apis = await ApiModel.find(query); // Execute the query with filters
+    const totalDocs = await ApiModel.countDocuments(query);
+    const totalPages = Math.ceil(totalDocs / limit);
+
+    // Filter fields to include in the response
+    const fieldsToExclude = ['openapiDefinition'];
+    const selectFields = Object.keys(ApiModel.schema.paths)
+      .filter(field => !fieldsToExclude.includes(field))
+      .join(' ')
+      .concat(' -_id'); // Exclude the _id field by default
+
+    const apis = await ApiModel.find(query)
+      .select(selectFields)
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     // Sort the results based on the field importance if search term is provided
     if (search) {
@@ -77,7 +93,12 @@ router.route('/').get(async (req: Request, res: Response) => {
       });
     }
 
-    res.json(apis);
+    res.json({
+      currentPage: page,
+      totalPages: totalPages,
+      itemsPerPage: limit,
+      apis: apis,
+    });
   } catch (error) {
     console.error('Error retrieving/searching APIs:', error);
     res.status(500).send('Internal Server Error');
@@ -119,6 +140,35 @@ router.route('/').post(async (req: Request, res: Response) => {
     } else {
       res.status(500).send('Internal Server Error');
     }
+  }
+});
+
+// PATCH an API by ID
+router.patch('/:apiId', async (req: Request, res: Response) => {
+  const { apiId } = req.params;
+
+  try {
+    const updatedApi = await ApiModel.findOneAndUpdate(
+      { id: apiId },
+      req.body,
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedApi) {
+      return res.status(404).send('API not found');
+    }
+
+    res.json(updatedApi);
+  } catch (err) {
+    const error = err as Error;
+    console.error('Error partially updating API:', error);
+
+    if (error instanceof Error.ValidationError) {
+      return res.status(400).send(error.message);
+    } else if (error.name === 'CastError') {
+      return res.status(400).send(error.message);
+    }
+    res.status(500).send('Internal Server Error');
   }
 });
 
