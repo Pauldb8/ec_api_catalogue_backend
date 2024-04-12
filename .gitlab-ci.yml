@@ -27,7 +27,7 @@ setup:
   stage: setup
   script:
     - docker compose -f docker-compose.ci.yml up -d
-    - chown o+rwx -R .
+    - chmod o+rwx -R .
 
 lint_and_format:
   stage: lint_and_format
