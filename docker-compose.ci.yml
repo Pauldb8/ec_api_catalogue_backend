@@ -4,7 +4,7 @@ services:
     depends_on:
       - mongodb
     working_dir: /usr/src/app
-    #user: node:node
+    user: gitlab-runner:gitlab-runner
     environment:
       - NODE_ENV=development
       - ACCESS_LOG_PATH=logs/access.log
