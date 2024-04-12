@@ -26,8 +26,7 @@ pull1:
 setup:
   stage: setup
   script:
-    - chmod 0777 -R .
-    - docker compose -f docker-compose.ci.yml up -d
+    - docker compose -f docker-compose.ci.yml up --build -d
 
 lint_and_format:
   stage: lint_and_format
@@ -41,7 +40,7 @@ test:
     - docker compose -f docker-compose.ci.yml up -d mongodb
     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
   after_script:
-    - docker compose -f docker-compose.ci.yml down -v
+    - docker compose -f docker-compose.ci.yml down
 
 build1:
   stage: build

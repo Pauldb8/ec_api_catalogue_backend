@@ -244,7 +244,6 @@ All tests should pass, and the output should look like this:
 │   ├── config/               # Test configuration files.
 │   ├── data/                 # Test data for use in testing environments.
 │   └── *.test.ts             # Test files written in TypeScript.
-├── .dockerignore             # Lists patterns to exclude from Docker builds.
 ├── .env                      # Local environment variables (not to be committed).
 ├── .env.example              # Template for .env file.
 ├── .eslintrc.yml             # ESLint rules and configurations.
