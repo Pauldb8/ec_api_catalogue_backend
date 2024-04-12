@@ -26,8 +26,8 @@ pull1:
 setup:
   stage: setup
   script:
+    - chmod 0777 -R .
     - docker compose -f docker-compose.ci.yml up -d
-    - chmod o+rwx -R .
 
 lint_and_format:
   stage: lint_and_format
