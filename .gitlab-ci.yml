@@ -36,6 +36,7 @@ setup:
 test:
   stage: test
   script:
+    - cp /home/pauldb/eur/env/api_catalogue_gateway/.env ./.env
     - docker compose -f docker-compose.ci.yml up -d mongodb
     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
   after_script:
