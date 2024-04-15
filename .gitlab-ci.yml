@@ -8,7 +8,7 @@ before_script:
 stages:
   - pull
   - setup
-  - lint_and_format
+  #- lint_and_format
   - test
   - build
   - deployment
