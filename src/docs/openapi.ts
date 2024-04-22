@@ -20,8 +20,8 @@ const openapi = {
     title: 'API Catalogue Backend - Documentation',
     description: '',
     license: {
-      name: 'MIT',
-      url: 'https://opensource.org/licenses/MIT',
+      name: 'EUPL v1.2',
+      url: 'https://code.europa.eu/api-gateway/api-catalogue-backend/-/blob/master/LICENSE',
     },
   },
   servers: isProdEnv() ? [prodServer] : [devServer, prodServer],

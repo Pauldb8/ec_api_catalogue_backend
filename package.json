@@ -1,7 +1,7 @@
 {
   "name": "ec-api-catalogue-backend",
   "author": "De Buck Technologies SRL & Thomas Ritaine",
-  "license": "MIT",
+  "license": "EUPL v1.2",
   "version": "0.1.0",
   "description": "European Commission - API Catalogue Backend",
   "scripts": {
