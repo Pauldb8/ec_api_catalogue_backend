@@ -5,28 +5,19 @@ before_script:
   - ls -la
 
 stages:
-  - pull
-  - setup
-  - lint_and_format
+  - setup-ci
+  - check-lint-format
   - test
-  - build
-  - deployment
+  - build-prod
+  - deploy-prod
 
-after_script:
-  - echo "Gitlab has done a stage"
-
-pull1:
-  stage: pull
-  script:
-    - echo "Pulling from GitLab"
-
-setup:
-  stage: setup
+setup-ci:
+  stage: setup-ci
   script:
     - docker compose -f docker-compose.ci.yml up --build -d
 
-lint_and_format:
-  stage: lint_and_format
+check-lint-format:
+  stage: check-lint-format
   script:
     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
 
@@ -37,17 +28,23 @@ test:
     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
   after_script:
     - docker compose -f docker-compose.ci.yml down
+    - docker image prune -f
 
-build1:
-  stage: build
+build-prod:
+  stage: build-prod
   script:
-    - echo "Building project"
-    - cp /home/pauldb/eur/env/api_catalogue_gateway/.env ./.env
-    - pwd
     - ls -latr
-    - docker compose -f docker-compose.prod.yml up --build -d
+    - docker build --target prod -t api-catalogue-backend:latest .
   only:
     - master
     - main
-  environment:
-    name: production
+
+deploy-prod:
+  stage: deploy-prod
+  script:
+    - docker compose -f /home/gitlab-runner/api-catalogue-backend/docker-compose.prod.yml down
+    - cp docker-compose.prod.yml /home/gitlab-runner/api-catalogue-backend/
+    - docker compose -f /home/gitlab-runner/api-catalogue-backend/docker-compose.prod.yml up -d
+  only:
+    - master
+    - main

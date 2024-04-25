@@ -20,13 +20,10 @@ services:
       - '443:443'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - './letsencrypt:/letsencrypt'
+      - 'letsencrypt:/letsencrypt'
 
   ec_api_catalogue_backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: prod
+    image: api-catalogue-backend:latest
     depends_on:
       - mongodb
     environment:
@@ -50,7 +47,7 @@ services:
       - NODE_ENV=production
     volumes:
       - mongodb_data:/data/db
-      - ./src/utils/dev-mongo-init/:/docker-entrypoint-initdb.d/:ro
 
 volumes:
+  letsencrypt:
   mongodb_data:
