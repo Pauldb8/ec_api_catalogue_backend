@@ -8,7 +8,7 @@ before_script:
 stages:
   - pull
   - setup
-  #- lint_and_format
+  - lint_and_format
   - test
   - build
   - deployment
@@ -28,15 +28,14 @@ setup:
   script:
     - docker compose -f docker-compose.ci.yml up --build -d
 
-# lint_and_format:
-#   stage: lint_and_format
-#   script:
-#     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
+lint_and_format:
+  stage: lint_and_format
+  script:
+    - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
 
 test:
   stage: test
   script:
-    - cp /home/pauldb/eur/env/api_catalogue_gateway/.env ./.env
     - docker compose -f docker-compose.ci.yml up -d mongodb
     - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
   after_script:
