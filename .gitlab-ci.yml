@@ -1,5 +1,4 @@
 before_script:
-  - node -v
   - docker version
   - docker compose version
   - pwd
@@ -19,9 +18,7 @@ after_script:
 pull1:
   stage: pull
   script:
-    - echo "please work"
-    - echo "Pulling from github"
-    - echo ça marche
+    - echo "Pulling from GitLab"
 
 setup:
   stage: setup
