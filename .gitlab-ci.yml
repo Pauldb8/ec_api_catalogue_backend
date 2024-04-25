@@ -14,20 +14,20 @@ stages:
 setup-ci:
   stage: setup-ci
   script:
-    - docker compose -f docker-compose.ci.yml up --build -d
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml up --build -d
 
 check-lint-format:
   stage: check-lint-format
   script:
-    - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
 
 test:
   stage: test
   script:
-    - docker compose -f docker-compose.ci.yml up -d mongodb
-    - docker compose -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml up -d mongodb
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
   after_script:
-    - docker compose -f docker-compose.ci.yml down
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml down
     - docker image prune -f
 
 build-prod:
