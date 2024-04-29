@@ -25,7 +25,6 @@ export const version = packageJson.version;
 export const nodeEnvironment = process.env.NODE_ENV;
 export const accessLogPath = process.env.ACCESS_LOG_PATH ?? '';
 export const authJwtSecret = process.env.AUTH_JWT_SECRET;
-export const sentryDsn = process.env.SENTRY_DSN;
 
 // Use differents Mongo Databases for test and other env
 export const mongoURI =
