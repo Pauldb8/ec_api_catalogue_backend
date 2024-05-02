@@ -52,7 +52,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@sentry/integrations": "^7.63.0",
+    "@sentry/integrations": "^7.110.0",
     "@sentry/node": "^7.61.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
