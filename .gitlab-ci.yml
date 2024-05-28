@@ -7,7 +7,7 @@ before_script:
 stages:
   - setup-ci
   - check-lint-format
-  #- test
+  - test
   - build-prod
   - deploy-prod
   - build-acc
