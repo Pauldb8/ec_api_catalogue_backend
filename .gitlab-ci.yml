@@ -86,6 +86,7 @@ deploy-acc:
     - rm -rf /home/pauldb/eur/api-catalogue-backend
     - ln -s "$(pwd)" /home/pauldb/eur/api-catalogue-backend
     - cd /home/pauldb/eur/api-catalogue-backend
+    - cp env/api_catalogue_gateway/.env .
     - docker compose -f /home/pauldb/eur/api-catalogue-backend/docker-compose.acc.yml down
     - docker compose -f /home/pauldb/eur/api-catalogue-backend/docker-compose.acc.yml up -d
   only:
