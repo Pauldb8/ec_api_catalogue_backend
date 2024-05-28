@@ -40,6 +40,8 @@ build-prod:
   only:
     - master
     - main
+  tags:
+    - api-catalogue-prod
 
 deploy-prod:
   stage: deploy-prod
@@ -50,6 +52,8 @@ deploy-prod:
   only:
     - master
     - main
+  tags:
+    - api-catalogue-prod
 
 build-acc:
   stage: build-acc
@@ -58,6 +62,8 @@ build-acc:
     - docker build --target prod -t api-catalogue-backend:latest .
   only:
     - dev
+  tags:
+    - api-catalogue-acc
 
 deploy-acc:
   stage: deploy-acc
@@ -69,3 +75,5 @@ deploy-acc:
     - docker compose -f /home/pauldb/eur/api-catalogue-backend/docker-compose.acc.yml up -d
   only:
     - dev
+  tags:
+    - api-catalogue-acc
