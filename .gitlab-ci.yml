@@ -6,7 +6,7 @@ before_script:
 
 stages:
   - setup-ci
-  #- check-lint-format
+  - check-lint-format
   #- test
   - build-prod
   - deploy-prod
@@ -17,20 +17,35 @@ setup-ci:
   stage: setup-ci
   script:
     - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml up --build -d
+  only:
+    - master
+    - main
+  tags:
+    - api-catalogue-prod
 
-#check-lint-format:
-#  stage: check-lint-format
-#  script:
-#    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
+check-lint-format:
+  stage: check-lint-format
+  script:
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run check-lint-and-format-repo
+  only:
+    - master
+    - main
+  tags:
+    - api-catalogue-prod
 
-#test:
-#  stage: test
-#  script:
-#    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml up -d mongodb
-#    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
-#  after_script:
-#    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml down
-#    - docker image prune -f
+test:
+  stage: test
+  script:
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml up -d mongodb
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml run ec_api_catalogue_backend npm run test
+  after_script:
+    - docker compose -p api-catalogue-backend-ci -f docker-compose.ci.yml down
+    - docker image prune -f
+  only:
+    - master
+    - main
+  tags:
+    - api-catalogue-prod
 
 build-prod:
   stage: build-prod
