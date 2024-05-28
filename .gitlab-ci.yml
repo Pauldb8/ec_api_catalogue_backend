@@ -10,6 +10,8 @@ stages:
   #- test
   - build-prod
   - deploy-prod
+  - build-acc
+  - deploy-acc
 
 setup-ci:
   stage: setup-ci
@@ -48,3 +50,22 @@ deploy-prod:
   only:
     - master
     - main
+
+build-acc:
+  stage: build-acc
+  script:
+    - ls -latr
+    - docker build --target prod -t api-catalogue-backend:latest .
+  only:
+    - dev
+
+deploy-acc:
+  stage: deploy-acc
+  script:
+    - rm -rf /home/pauldb/eur/api-catalogue-backend
+    - ln -s "$(pwd)" /home/pauldb/eur/api-catalogue-backend
+    - cd /home/pauldb/eur/api-catalogue-backend
+    - docker compose -f /home/pauldb/eur/api-catalogue-backend/docker-compose.acc.yml down
+    - docker compose -f /home/pauldb/eur/api-catalogue-backend/docker-compose.acc.yml up -d
+  only:
+    - dev
