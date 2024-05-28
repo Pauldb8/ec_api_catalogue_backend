@@ -44,6 +44,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(cors({ credentials: true }));
 
+// Healthcheck
+app.get('/healthcheck', (req, res) => {
+  res.status(200).json({
+    message: 'OK',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Routing setup
 app.use('/apis', apisRouter);
 

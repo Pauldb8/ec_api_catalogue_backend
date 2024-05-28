@@ -1,6 +1,8 @@
+import healthcheckPaths from './healthcheck';
 import apisPaths from './apis';
 
 const allPaths = [
+  healthcheckPaths,
   apisPaths,
   // Add other paths as you create them
 ];

@@ -1,43 +1,25 @@
-version: '3.8'
-
 services:
-  traefik:
-    image: traefik:v2.11
-    command:
-      - '--log.level=INFO'
-      - '--api.insecure=false'
-      - '--api.dashboard=true'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedbydefault=false'
-      - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
-      - '--certificatesresolvers.letsencrypt.acme.tlschallenge=true'
-      - '--certificatesresolvers.letsencrypt.acme.email=thomas.ritaine@ext.ec.europa.eu'
-      - '--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json'
-      - '--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web'
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - 'letsencrypt:/letsencrypt'
-
   ec_api_catalogue_backend:
     image: api-catalogue-backend:latest
+    restart: unless-stopped
     depends_on:
       - mongodb
     environment:
       - MONGODB_URI=mongodb://${MONGODB_USER_NAME}:${MONGODB_USER_PASSWORD}@mongodb/ec_api_catalogue_backend
     env_file:
       - .env
+    networks:
+      - default
+      - traefik
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.ec-api-catalogue.rule=Host(`${DOMAIN_NAME}`)'
-      - 'traefik.http.routers.ec-api-catalogue.entrypoints=websecure'
-      - 'traefik.http.routers.ec-api-catalogue.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.ec-api-catalogue.rule=PathPrefix(`/api-catalogue`)'
+      - 'traefik.http.middlewares.ec-api-catalogue-strip-prefix.stripprefix.prefixes=/api-catalogue'
+      - 'traefik.http.routers.ec-api-catalogue.middlewares=ec-api-catalogue-strip-prefix'
 
   mongodb:
     image: mongo:7
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_NAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
@@ -47,7 +29,13 @@ services:
       - NODE_ENV=production
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - default
 
 volumes:
-  letsencrypt:
   mongodb_data:
+
+networks:
+  default:
+  traefik:
+    external: true

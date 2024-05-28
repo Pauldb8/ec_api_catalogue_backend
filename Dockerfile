@@ -52,6 +52,8 @@ ENV NODE_ENV production
 
 USER root
 
+RUN apk add --no-cache curl
+
 RUN npm install pm2 -g
 
 USER node
@@ -63,5 +65,7 @@ COPY --from=build /usr/src/app/dist ./
 COPY .env.example package.json ./
 
 EXPOSE 3000
+
+HEALTHCHECK CMD curl --fail http://localhost:3000/healthcheck || exit 1
 
 CMD [ "pm2-runtime", "app.js" ]
